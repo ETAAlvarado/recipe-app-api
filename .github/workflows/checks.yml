@@ -47,6 +47,5 @@ jobs:
         run: docker-compose run --rm app sh -c "python manage.py test"
         ## This is the command that runs the linting on our project
       - name: Linting
-        run: docker-compose run --run sh -c "flake8"
+        run: docker-compose run --rm app sh -c "flake8"
 ## This code also makes it so that should any of the lines of code fail, the Linux code will stop said job and say that these lines failed
-##

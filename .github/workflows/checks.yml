@@ -16,6 +16,7 @@ jobs:
   test-lint: 
     ## This is the human-friendly name that you will see wihin the Github Actions interface
     name: Test and Lint
+    environment: recipe-app-api
     ## This is the runner that we will be running the job on
     ## This is basically the OS you'll be running the job on
     ## We're using Ubuntu because it's just a basic Linux runner, which is all we need for our python project

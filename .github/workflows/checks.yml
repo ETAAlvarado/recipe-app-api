@@ -31,7 +31,7 @@ jobs:
         ### This Github action is a Docker container and Docker configuration that is setup to fulfill a certain task
         ## This line is used to call the login action and log us into Docker
         ### The '@' symbol tells us the version of this action we want to use
-        uses: Docker/login-action@v1
+        uses: docker/login-action@v1
         ## The 'with' line allows us to pass in the parameters to fulfill the task we want done
         with:
           username: ${{ secrets.DOCKERHUB_USER }}

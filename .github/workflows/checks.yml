@@ -15,8 +15,8 @@ jobs:
   ## This is the id of the job (will typically want a simple id like this if you want to reference it in Github actions)
   test-lint: 
     ## This is the human-friendly name that you will see wihin the Github Actions interface
-    name: Test and Lint
     environment: recipe-app-api
+    name: Test and Lint
     ## This is the runner that we will be running the job on
     ## This is basically the OS you'll be running the job on
     ## We're using Ubuntu because it's just a basic Linux runner, which is all we need for our python project

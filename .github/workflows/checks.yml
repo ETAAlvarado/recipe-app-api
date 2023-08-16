@@ -1,0 +1,52 @@
+# This is the conf file for our Github actions
+## We call it 'check' because it performs various different checks on our code
+## If you wanted to automated deployment as well. you'd probably make another file that does so
+
+## These three dashes signify that the file is a yml file
+---
+## This is the name as it would appear on Github actions
+name: Checks 
+
+## This line is the trigger, meaning that these actions will happen whenever we commit and push our code to Github
+on: [push]
+
+## everything below this line is what will happen once the trigger is activated
+jobs: 
+  ## This is the id of the job (will typically want a simple id like this if you want to reference it in Github actions)
+  test-lint: 
+    ## This is the human-friendly name that you will see wihin the Github Actions interface
+    name: Test and Lint
+    ## This is the runner that we will be running the job on
+    ## This is basically the OS you'll be running the job on
+    ## We're using Ubuntu because it's just a basic Linux runner, which is all we need for our python project
+    ### FYI: This runner already has docker and docker-compose installed, so no need to install it on the container
+    runs-on: ubuntu-20.04
+    ## These lines below definethe first steps of our job
+    steps:
+      ## The name is simply the human readable name we want to give to this particular step
+      - name: Login to Docker Hub
+        ## This line utilizes the 'uses' action
+        ### Uses allows us to use a premade action in the Github actions repository
+        ### Github actions also lets you make your actions as well
+        ### This Github action is a Docker container and Docker configuration that is setup to fulfill a certain task
+        ## This line is used to call the login action and log us into Docker
+        ### The '@' symbol tells us the version of this action we want to use
+        uses: Docker/login-action@v1
+        ## The 'with' line allows us to pass in the parameters to fulfill the task we want done
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        ## This will be the next step performed if the Docker login step is performed successfully
+        ## This action is a premade Github action that checks our code out inside our Guthub actions job
+        ### We do this because by default, the code is not checked out
+        ### We need to do this so that the code is available to do the tests that follow
+      - name: Checkout
+        uses: actions/checkout@v2
+        ## This is the command that runs the unit test on our project
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
+        ## This is the command that runs the linting on our project
+      - name: Linting
+        run: docker-compose run --run sh -c "flake8"
+## This code also makes it so that should any of the lines of code fail, the Linux code will stop said job and say that these lines failed
+##

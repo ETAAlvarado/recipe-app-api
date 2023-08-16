@@ -1,0 +1,19 @@
+#Git
+## These are hidden git directories that are not needed
+.git 
+.gitignore
+
+#Docker
+## This is a hidden docker directory that just takes some working docker files that are not needed
+.docker 
+
+#Python
+## Removes pycache files bc they can be made to run specifically on our OS and not on the alpine OS
+## Also removes any env or venv sonce our Docker file already has a venv
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/

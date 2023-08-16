@@ -1,0 +1,15 @@
+version: "3.9" ##This line is to make sure that our file works no matter the current Docker version
+
+## This is the main block within docker-compose files
+services: ## docker-compose files are typically made of one or more services needed for your application
+  app: ## This is the name of the service that will run our docker file
+    build: ## These next two line say where we want to build our docker file, which is in our current directory
+      context: . ## This dot means to build in our current directory
+      args:
+        - DEV=true ##Makes it so that whenever we run this dock-compose file, make a DEV argument in build and set it to true
+    ports: ## This maps port 8000 in our local machine to port 8000 in our docker container
+      - "8000:8000" ## This is how we access the network when we want to connect to our server
+    volumes: ## Volumes are how we map directories from our system into the docker container
+      - ./app:/app
+    command: > ## This is the command that is used to run the service
+      sh -c "python manage.py runserver 0.0.0.0:8000"

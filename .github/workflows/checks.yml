@@ -15,7 +15,6 @@ jobs:
   ## This is the id of the job (will typically want a simple id like this if you want to reference it in Github actions)
   test-lint: 
     ## This is the human-friendly name that you will see wihin the Github Actions interface
-    environment: recipe-app-api
     name: Test and Lint
     ## This is the runner that we will be running the job on
     ## This is basically the OS you'll be running the job on
@@ -45,7 +44,7 @@ jobs:
         uses: actions/checkout@v2
         ## This is the command that runs the unit test on our project
       - name: Test
-        run: docker-compose run --rm app sh -c "python manage.py test"
+        run: docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
         ## This is the command that runs the linting on our project
       - name: Linting
         run: docker-compose run --rm app sh -c "flake8"

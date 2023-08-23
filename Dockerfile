@@ -32,6 +32,16 @@ ARG DEV=false
 RUN python -m venv /py && \
     ## This next line upgrades the python package manager in our virtual environment
     /py/bin/pip install --upgrade pip && \
+    ## This line installs the POSTGRESQL client
+    ### This is the client package we need in order for our Psycorpg2 package to connect to POSTGRESQL
+    ### This is the dependency that needs to stay in our Docker image when we're running it in production
+    apk add --update --no-cache postgresql-client && \
+    ## This line sets a virtual dependency package
+    ### This groups the packages that we install into a virtual package this name called tmp-builds-deps
+    ### We can use this to remove these packages later on within our Dockerfile
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        ### This line shows the packages that we need to install our POSTGRESQL adapter
+        build-base postgresql-dev musl-dev && \
     ## This line installs the list of requirements we made in our Docker image
     /py/bin/pip install -r /tmp/requirements.txt && \
     ## This is eesential shellscript that runs an if statement
@@ -45,6 +55,7 @@ RUN python -m venv /py && \
     ### If you ever use any temporary files, insert them, use them, but make sure to delete them before the end
     ### of the Docker file
     rm -rf /tmp && \
+    apk del .tmp-build-deps && \
     ## Adds a new user inside our image, as it is frowned upon to use the root user
     ## DONT RUN YOUR APPLICATION AS A ROOT USER, BC THEN ATTACKERS WILL HAVE FULL CONTROL OF THE CONTAINER
     ## using a new user mitigates the amount of damage attackers can do

@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Entrypoint for command"""
-        # This line logs a mesage to the screen saying we're waiting for the \
+        # This line logs a message to the screen saying we're waiting for the \
         # database
         self.stdout.write('Waiting for database...')
         # We then writing a bool storing false, since we're assuming the db \

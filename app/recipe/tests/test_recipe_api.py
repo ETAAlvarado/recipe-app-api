@@ -40,9 +40,11 @@ def create_recipe(user, **params):
     recipe = Recipe.objects.create(user=user, **defaults)
     return recipe
 
+
 def create_user(**params):
     """Create and return a new user."""
     return get_user_model().objects.create_user(**params)
+
 
 class PublicRecipeAPITests(TestCase):
     """Test unauthenticated API requests."""
@@ -52,7 +54,7 @@ class PublicRecipeAPITests(TestCase):
 
     def test_auth_required(self):
         """Test auth is required to call API."""
-        res  = self.client.get(RECIPES_URL)
+        res = self.client.get(RECIPES_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -161,7 +163,9 @@ class PrivateRecipeApiTests(TestCase):
 
         def test_update_user_returns_error(self):
             """Test changing the recipe results in an error."""
-            new_user = create_user(email='user2@example.com', password='test123')
+            new_user = create_user(
+                email='user2@example.com',
+                password='test123')
             recipe = create_recipe(user=self.user)
 
             payload = {'user': new_user.id}
